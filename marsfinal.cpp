@@ -139,24 +139,36 @@ private:
 };
 
 int main() {
+    // Taking grid size if any value is negative it will enumarate until it gets valid size
     int width,height;
     cout<<"Entre the size of width 'Width Height': ";
     cin>>width>>height;
+    while(width < 1 || height < 1){
+        cout<<"ALERT!!!! entre valid size of grid must be positive value (Width Height): ";
+        cin>>width>>height;
+    }
     Grid grid(width, height);
+    
+    // Taking obstracles from user
     cout << "Entre the number of obstacle in a grid: ";
     int obstacleNumber,x,y;
     cin>>obstacleNumber;
     while(obstacleNumber--){
         cout<<"Enter the coordinate 'x y' of obstracle in grid: ";
         cin >> x >> y ;
-        grid.placeObstacle(x, y);
+        while(!grid.isValidCoordinate(x,y)){
+            cout << "Entre valid coordinate of obstacles(x y): ";
+            cin >> x >> y;
+        }
+        grid.placeObstacle(x,y);
     }
+    
     cout <<"Enter the starting coordinate 'x y direction(N,S,E,W)' rover in grid: ";
     char direction;
     cin>>x>>y>>direction;
-    while(!grid.isValidCoordinate(x,y)){
-        cout<<"ALERT!!!! entre valid coordinate of rover starting point(x y): ";
-        cin>>x>>y;
+    while(!grid.isValidCoordinate(x,y) || count(directionfacing.begin(),directionfacing.end(),direction)==0){
+        cout<<"ALERT!!!! entre valid coordinate of rover starting point(x y direction(N,S,E,W)): ";
+        cin>>x>>y>>direction;
     }
     Rover rover(x, y, direction, grid);
 
